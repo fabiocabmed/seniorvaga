@@ -1,0 +1,7 @@
+{
+  "name": "Seniorvaga",
+  "description": "Plataforma de IA avançada para otimização de currículos sênior (50+) e diagnóstico ATS, combatendo o etarismo corporativo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

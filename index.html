@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seniorvaga | Inteligência Executiva & Otimização ATS Anti-Etarismo</title>
+    <meta name="description" content="Plataforma executiva de otimização de currículos para sistemas ATS focada em combater o etarismo e valorizar a senioridade profissional.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        platinum: '#F4F6F6',
+                        midnight: '#06373A',
+                        midnightLight: '#0C4D52',
+                        emeraldExec: '#0D6E52',
+                        emeraldHover: '#09523D',
+                        agedAmber: '#B45309',
+                        ink: '#111827',
+                        slateMuted: '#475569',
+                        crispBorder: '#D1D5DB'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Bibliotecas para leitura local de PDF e DOCX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F6F6;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-midnight selection:text-white">
+
+    <!-- Faixa Institucional Superior -->
+    <div class="bg-midnight text-white text-xs py-2 px-4 border-b border-midnightLight">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
+            <span class="font-medium tracking-wide">Compromisso Ético: Otimizamos sua narrativa executiva sem nunca inventar experiências.</span>
+            <span class="text-emerald-300 font-semibold">Leitura Local Privada • PDF, DOCX & Texto</span>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header class="bg-white border-b border-crispBorder sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Identidade da Marca com Selo Oficial -->
+            <div class="flex items-center gap-3.5">
+                <div class="shrink-0">
+                    <svg width="46" height="46" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Selo Seniorvaga">
+                        <path d="M24 3L42.1865 13.5V34.5L24 45L5.81347 34.5V13.5L24 3Z" fill="#06373A"/>
+                        <path d="M24 6.5L39.1554 15.25V32.75L24 41.5L8.84456 32.75V15.25L24 6.5Z" stroke="#0C4D52" stroke-width="1.5"/>
+                        <path d="M14.5 28.5C13.5 25.5 14 21.5 16.5 18.5C19.5 15 25 14.5 29 16.5" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M17.5 30.5L23.5 24.5L27 28L34 19.5" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M28.5 19.5H34V25" stroke="#34D399" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-display text-2xl font-extrabold tracking-tight text-midnight">
+                            Senior<span class="text-emeraldExec">vaga</span>
+                        </span>
+                        <span class="bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A] text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                            Carreira 50+
+                        </span>
+                    </div>
+                    <p class="text-xs text-slateMuted font-medium">Consultoria de Compatibilidade ATS & Valorização Sênior</p>
+                </div>
+            </div>
+
+            <!-- Controles de Motor IA -->
+            <div class="flex items-center gap-3">
+                <div id="apiStatusBadge" class="hidden sm:flex items-center gap-2 text-xs bg-platinum px-3 py-2 rounded-lg border border-crispBorder text-slateMuted font-medium">
+                    <span id="statusDot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+                    <span id="statusText">Chave API Pendente</span>
+                </div>
+                <button onclick="toggleSettings()" class="bg-white hover:bg-platinum text-midnight border border-crispBorder font-semibold text-xs px-4 py-2.5 rounded-lg transition-colors duration-200 inline-flex items-center gap-2 cursor-pointer">
+                    <svg class="w-4 h-4 text-midnight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                    </svg>
+                    Configurar Chave API
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal de Configuração da API Key -->
+    <div id="settingsModal" class="fixed inset-0 bg-ink/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="bg-white border border-crispBorder max-w-md w-full p-7 rounded-xl shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="modalTitle" class="text-lg font-bold text-midnight">Configuração do Motor Gemini</h3>
+                <button onclick="toggleSettings()" class="text-slateMuted hover:text-ink p-1 cursor-pointer" aria-label="Fechar janela">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-sm text-slateMuted mb-5 leading-relaxed">
+                Insira sua chave de API do <strong>Google AI Studio</strong>. A chave fica salva exclusivamente no navegador do seu dispositivo.
+            </p>
+            <label for="apiKeyInput" class="block text-xs font-semibold text-ink uppercase tracking-wider mb-2">Chave de Acesso (API Key)</label>
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full bg-[#F8FAFC] border border-[#CBD5E1] focus:border-midnight focus:bg-white focus:ring-2 focus:ring-midnight/15 rounded-lg px-4 py-3 text-sm text-ink outline-none transition-all mb-6">
+            <div class="flex justify-end gap-3">
+                <button onclick="toggleSettings()" class="bg-white hover:bg-platinum text-slateMuted border border-crispBorder font-semibold text-xs px-4 py-2.5 rounded-lg transition-colors cursor-pointer">
+                    Cancelar
+                </button>
+                <button onclick="saveApiKey()" class="bg-emeraldExec hover:bg-emeraldHover text-white font-semibold text-xs px-5 py-2.5 rounded-lg transition-colors cursor-pointer">
+                    Salvar Configuração
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-14 flex-grow w-full">
+
+        <!-- Hero Section Editorial Assimétrica -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 lg:items-stretch mb-12">
+            
+            <!-- Coluna Esquerda: Mensagem e Autoridade (7 colunas) -->
+            <div class="lg:col-span-7 flex flex-col justify-between">
+                <div>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-midnight tracking-tight leading-[1.13] mb-5">
+                        Sua trajetória profissional é um ativo estratégico. <span class="text-emeraldExec">Faça os sistemas ATS reconhecerem isso.</span>
+                    </h1>
+                    <p class="text-base sm:text-lg text-slateMuted leading-relaxed mb-7">
+                        Filtros automatizados descartam profissionais experientes por questões de formatação ou ausência de termos técnicos atuais. Compare seu currículo com a vaga desejada e gere uma versão estruturada que destaca sua liderança e maturidade.
+                    </p>
+                </div>
+                
+                <!-- Indicadores de Valor Rápidos -->
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2.5 text-xs font-semibold text-midnight pt-4 border-t border-crispBorder/80">
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emeraldExec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        Foco em Profissionais 45+ e 50+
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emeraldExec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        Leitura Direta de PDF e DOCX
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emeraldExec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        100% Fiel à sua História Real
+                    </span>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Cartão Único Alinhado Topo-a-Base (5 colunas) -->
+            <div class="lg:col-span-5 flex">
+                <div class="relative rounded-2xl overflow-hidden border border-crispBorder shadow-lg min-h-[380px] lg:min-h-0 lg:h-full w-full max-w-md mx-auto lg:max-w-none flex flex-col justify-end bg-midnight">
+                    
+                    <!-- Imagem ocupando 100% do cartão -->
+                    <img src="./equipe-senior.png" alt="Executivos sênior experientes em reunião" class="absolute inset-0 w-full h-full object-cover object-[center_15%]">
+                    
+                    <!-- Degradê Verde Transparente na Base -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#06373A] via-[#06373A]/70 via-35% to-transparent"></div>
+                    
+                    <!-- Conteúdo Integrado na Transparência -->
+                    <div class="relative z-10 p-6 flex items-center gap-4">
+                        <div class="shrink-0 w-14 h-14 rounded-xl bg-[#06373A]/85 backdrop-blur-xs border border-white/15 border-r-4 border-r-[#F59E0B] flex items-center justify-center font-display font-extrabold text-xl text-[#FDE68A] shadow-md">
+                            50+
+                        </div>
+                        
+                        <div>
+                            <div class="font-display text-lg sm:text-xl font-bold leading-tight tracking-tight">
+                                <span class="text-white">Maturidade</span> <span class="text-[#F59E0B]">&amp; Repertório</span>
+                            </div>
+                            <div class="text-xs sm:text-sm text-gray-200 mt-1 font-normal">
+                                Traduzidos para a linguagem ATS
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Barra de Casos Reais para Demonstração Rápida -->
+        <section class="bg-white border border-crispBorder rounded-xl p-5 mb-8 shadow-[0_2px_8px_rgba(6,55,58,0.04)]">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-sm font-bold text-midnight">Demonstração Prática com Perfis Sênior</h2>
+                    <p class="text-xs text-slateMuted mt-0.5">Selecione um cenário real abaixo para preencher os campos automaticamente e testar a análise.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="loadTestCase('comercial')" class="bg-platinum hover:bg-[#E2E8F0] text-midnight border border-crispBorder px-3.5 py-2 rounded-lg transition-colors flex items-center gap-3 text-left cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=80" alt="Retrato Executivo Comercial" class="w-8 h-8 rounded-md object-cover border border-crispBorder">
+                        <div>
+                            <div class="text-xs font-bold text-midnight">Gerente Comercial B2B</div>
+                            <div class="text-[11px] text-slateMuted">49 anos • 18 anos de experiência</div>
+                        </div>
+                    </button>
+
+                    <button onclick="loadTestCase('operacoes')" class="bg-platinum hover:bg-[#E2E8F0] text-midnight border border-crispBorder px-3.5 py-2 rounded-lg transition-colors flex items-center gap-3 text-left cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Retrato Diretora de Operações" class="w-8 h-8 rounded-md object-cover border border-crispBorder">
+                        <div>
+                            <div class="text-xs font-bold text-midnight">Diretora de Operações</div>
+                            <div class="text-[11px] text-slateMuted">53 anos • Gestão & Governança</div>
+                        </div>
+                    </button>
+
+                    <button onclick="clearFields()" class="text-xs font-semibold text-slateMuted hover:text-midnight px-3 py-2 underline underline-offset-4 cursor-pointer">
+                        Limpar campos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Área de Trabalho: Entradas de Dados -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Passo 1: Vaga -->
+            <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(6,55,58,0.04)] flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <label for="jobDescription" class="text-base font-bold text-midnight flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-md bg-midnight text-white flex items-center justify-center text-xs font-bold">1</span>
+                        Descrição da Vaga
+                    </label>
+                    <span class="text-xs font-medium text-slateMuted">Cole o texto da vaga</span>
+                </div>
+                <textarea id="jobDescription" rows="11" placeholder="Cole aqui o texto completo da vaga publicada (ex: requisitos técnicos, responsabilidades de liderança, ferramentas e competências desejadas)..." class="w-full bg-[#F8FAFC] border border-[#CBD5E1] focus:border-midnight focus:bg-white focus:ring-2 focus:ring-midnight/15 rounded-lg p-4 text-sm text-ink placeholder-[#64748B] outline-none transition-all leading-relaxed resize-none flex-grow"></textarea>
+            </div>
+
+            <!-- Passo 2: Currículo (Com Upload PDF/DOCX + Texto) -->
+            <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(6,55,58,0.04)] flex flex-col">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <label for="userResume" class="text-base font-bold text-midnight flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-md bg-emeraldExec text-white flex items-center justify-center text-xs font-bold">2</span>
+                        Seu Currículo Atual
+                    </label>
+
+                    <!-- Botão de Upload de Arquivo (PDF / DOCX) -->
+                    <div>
+                        <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt" class="hidden" onchange="handleFileUpload(event)">
+                        <button type="button" onclick="document.getElementById('resumeFileInput').click()" class="bg-platinum hover:bg-[#E2E8F0] text-midnight border border-crispBorder font-semibold text-xs px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1.5 cursor-pointer">
+                            <svg class="w-4 h-4 text-emeraldExec" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                            </svg>
+                            <span>Anexar PDF ou DOCX</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feedback de Arquivo Carregado -->
+                <div id="fileStatusBanner" class="hidden mb-2.5 px-3 py-2 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] text-xs text-[#065F46] flex items-center justify-between">
+                    <div class="flex items-center gap-2 font-medium truncate">
+                        <svg class="w-4 h-4 shrink-0 text-emeraldExec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span id="uploadedFileName" class="truncate">curriculo.pdf carregado</span>
+                    </div>
+                    <button type="button" onclick="clearUploadedFile()" class="text-[#065F46] hover:underline font-semibold ml-2 shrink-0 cursor-pointer">Remover</button>
+                </div>
+
+                <textarea id="userResume" rows="10" placeholder="Anexe seu arquivo PDF/DOCX no botão acima ou cole aqui o conteúdo do seu currículo atual (resumo profissional, experiências anteriores, resultados e formação)..." class="w-full bg-[#F8FAFC] border border-[#CBD5E1] focus:border-midnight focus:bg-white focus:ring-2 focus:ring-midnight/15 rounded-lg p-4 text-sm text-ink placeholder-[#64748B] outline-none transition-all leading-relaxed resize-none flex-grow"></textarea>
+            </div>
+        </section>
+
+        <!-- Botão Principal de Execução -->
+        <div class="flex flex-col items-center justify-center mb-12">
+            <button onclick="analyzeResume()" id="analyzeBtn" class="bg-emeraldExec hover:bg-emeraldHover text-white font-bold text-base px-8 py-4 rounded-lg transition-colors duration-200 inline-flex items-center justify-center gap-3 shadow-md cursor-pointer w-full sm:w-auto">
+                <span>Analisar Compatibilidade e Otimizar Currículo</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+            </button>
+            <p class="text-xs text-slateMuted mt-3">Processamento ético: nenhuma experiência fictícia será adicionada ao seu histórico.</p>
+        </div>
+
+        <!-- Estado de Carregamento -->
+        <div id="loadingState" class="hidden bg-white border border-crispBorder rounded-xl p-12 text-center mb-12 shadow-sm">
+            <div class="inline-block w-10 h-10 border-4 border-midnight border-t-emeraldExec rounded-full animate-spin mb-4"></div>
+            <h3 class="text-lg font-bold text-midnight">Processando Diagnóstico Executivo ATS...</h3>
+            <p class="text-sm text-slateMuted mt-1 max-w-md mx-auto">
+                Mapeando palavras-chave da vaga, identificando seus diferenciais de senioridade e estruturando a versão otimizada.
+            </p>
+        </div>
+
+        <!-- Seção de Resultados -->
+        <section id="resultsSection" class="hidden space-y-6">
+            
+            <!-- Bloco 1: Score e Diagnóstico Executivo -->
+            <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-8 shadow-[0_2px_8px_rgba(6,55,58,0.04)] grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
+                <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-crispBorder pb-5 md:pb-0 md:pr-6 text-center md:text-left">
+                    <span class="text-xs font-bold text-slateMuted uppercase tracking-wider block">Aderência ATS</span>
+                    <div id="matchScore" class="font-display text-5xl font-extrabold text-emeraldExec mt-1">0%</div>
+                    <span class="inline-block mt-2 text-xs font-semibold text-midnight bg-platinum px-2.5 py-1 rounded-md border border-crispBorder">
+                        Índice de Compatibilidade
+                    </span>
+                </div>
+                <div class="md:col-span-3">
+                    <h3 class="text-base font-bold text-midnight mb-2">Parecer Estratégico de Senioridade</h3>
+                    <p id="matchSummary" class="text-sm text-ink leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Bloco 2: Mapeamento de Palavras-Chave -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Encontradas -->
+                <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(6,55,58,0.04)]">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-bold text-midnight flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emeraldExec"></span>
+                            Palavras-Chave Identificadas no Currículo
+                        </h3>
+                    </div>
+                    <div id="foundKeywords" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Faltantes -->
+                <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-7 shadow-[0_2px_8px_rgba(6,55,58,0.04)]">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-bold text-midnight flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-agedAmber"></span>
+                            Termos da Vaga Incorporados na Otimização
+                        </h3>
+                    </div>
+                    <div id="missingKeywords" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+
+            <!-- Bloco 3: Dica de Posicionamento para Entrevista -->
+            <div class="bg-midnight text-white rounded-xl p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 text-emerald-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider mb-1">Orientação de Posicionamento Sênior (Entrevista)</h3>
+                    <p id="mentorTip" class="text-sm text-gray-100 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- Bloco 4: Currículo Otimizado Pronto para Exportação -->
+            <div class="bg-white border border-crispBorder rounded-xl p-6 sm:p-8 shadow-[0_2px_8px_rgba(6,55,58,0.04)]">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-5 border-b border-crispBorder">
+                    <div>
+                        <h3 class="text-lg font-bold text-midnight">Currículo Estruturado (Padrão ATS-Friendly)</h3>
+                        <p class="text-xs text-slateMuted mt-0.5">Texto limpo, sem tabelas ou colunas complexas que bloqueiam a leitura dos robôs de recrutamento.</p>
+                    </div>
+                    <div class="flex items-center gap-2.5">
+                        <button onclick="copyOptimizedResume()" id="copyBtn" class="bg-white hover:bg-platinum text-midnight border border-crispBorder font-semibold text-xs px-4 py-2.5 rounded-lg transition-colors inline-flex items-center gap-2 cursor-pointer">
+                            <svg class="w-4 h-4 text-midnight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012-2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                            <span>Copiar Texto</span>
+                        </button>
+                        <button onclick="downloadTxtResume()" class="bg-midnight hover:bg-midnightLight text-white font-semibold text-xs px-4 py-2.5 rounded-lg transition-colors inline-flex items-center gap-2 cursor-pointer">
+                            <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span>Baixar Arquivo (.txt)</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="optimizedResumeText" class="bg-[#F8FAFC] border border-[#CBD5E1] rounded-lg p-6 text-sm text-ink whitespace-pre-line leading-relaxed font-mono max-h-[520px] overflow-y-auto"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Rodapé Institucional -->
+    <footer class="bg-white border-t border-crispBorder py-8 mt-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slateMuted">
+            <div>
+                <strong class="text-midnight font-bold">Seniorvaga</strong> — Tecnologia a favor da maturidade profissional e combate ao etarismo.
+            </div>
+            <div>
+                Arquitetura & Design System por <strong class="text-midnight font-semibold">Vitally Studio</strong> &copy; 2026
+            </div>
+        </div>
+    </footer>
+
+    <!-- Motor JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateApiStatus();
+        });
+
+        function updateApiStatus() {
+            const key = localStorage.getItem('gemini_api_key');
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            if (key && key.length > 10) {
+                dot.className = 'w-2 h-2 rounded-full bg-emeraldExec';
+                text.innerText = 'Motor Gemini Conectado';
+                text.className = 'text-midnight font-semibold';
+            } else {
+                dot.className = 'w-2 h-2 rounded-full bg-amber-500';
+                text.innerText = 'Chave API Pendente';
+                text.className = 'text-slateMuted font-medium';
+            }
+        }
+
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('apiKeyInput').value = localStorage.getItem('gemini_api_key') || '';
+            }
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                updateApiStatus();
+                toggleSettings();
+            } else {
+                alert('Por favor, insira uma chave de API válida do Google AI Studio.');
+            }
+        }
+
+        // Leitura local de PDF, DOCX e TXT
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const resumeTextarea = document.getElementById('userResume');
+            const banner = document.getElementById('fileStatusBanner');
+            const fileNameSpan = document.getElementById('uploadedFileName');
+            const fileName = file.name.toLowerCase();
+
+            try {
+                resumeTextarea.value = 'Extraindo texto do documento...';
+
+                if (fileName.endsWith('.pdf')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let fullText = '';
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        fullText += pageText + '\n\n';
+                    }
+                    resumeTextarea.value = fullText.trim();
+                } else if (fileName.endsWith('.docx')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    resumeTextarea.value = result.value.trim();
+                } else if (fileName.endsWith('.txt')) {
+                    const text = await file.text();
+                    resumeTextarea.value = text.trim();
+                } else {
+                    alert('Formato não suportado. Utilize arquivos .pdf, .docx ou .txt.');
+                    resumeTextarea.value = '';
+                    return;
+                }
+
+                fileNameSpan.innerText = `${file.name} extraído com sucesso`;
+                banner.classList.remove('hidden');
+            } catch (err) {
+                console.error(err);
+                alert('Não foi possível ler o arquivo selecionado. Tente colar o texto manualmente.');
+                resumeTextarea.value = '';
+            }
+        }
+
+        function clearUploadedFile() {
+            document.getElementById('resumeFileInput').value = '';
+            document.getElementById('fileStatusBanner').classList.add('hidden');
+            document.getElementById('userResume').value = '';
+        }
+
+        function clearFields() {
+            document.getElementById('jobDescription').value = '';
+            clearUploadedFile();
+            document.getElementById('resultsSection').classList.add('hidden');
+        }
+
+        function loadTestCase(profile) {
+            clearUploadedFile();
+            if (profile === 'comercial') {
+                document.getElementById('jobDescription').value = `Vaga: Gerente Comercial B2B Enterprise
+Empresa de tecnologia corporativa busca liderança comercial para estruturar prospecção outbound, gerenciar ciclo de vendas complexas, aplicar metodologias SPIN Selling e BANT, acompanhar pipeline em CRM e liderar equipe de executivos de contas com foco em receita previsível e expansão de carteira.`;
+                document.getElementById('userResume').value = `Fábio M. — 49 anos | Profissional da Área Comercial
+Mais de 18 anos de experiência em vendas corporativas, desenvolvimento de negócios e relacionamento com clientes de grande porte. Atuação sólida na abertura de novos mercados, negociação consultiva, treinamento de equipes comerciais e gestão de metas. Experiência prévia em empresas de software ERP e serviços corporativos, com foco em retenção e aumento de faturamento.`;
+            } else if (profile === 'operacoes') {
+                document.getElementById('jobDescription').value = `Vaga: Diretora de Operações e Governança
+Buscamos executiva sênior para liderar eficiência operacional, gestão de indicadores (KPIs), mitigação de riscos, reestruturação de processos internos, gestão orçamentária e liderança de equipes multidisciplinares em ambiente de transformação digital.`;
+                document.getElementById('userResume').value = `Helena R. — 53 anos | Executiva de Operações e Administração
+Carreira de 24 anos conduzindo operações administrativas e logísticas de alta complexidade. Forte vivência em redução de custos operacionais, implementação de controles de qualidade, gestão de crises e liderança de times acima de 80 colaboradores. Graduada em Administração com MBA em Gestão Empresarial.`;
+            }
+        }
+
+        async function analyzeResume() {
+            const apiKey = localStorage.getItem('gemini_api_key');
+            if (!apiKey) {
+                alert('Configure sua chave da API do Google AI Studio no botão superior direito antes de iniciar a análise.');
+                toggleSettings();
+                return;
+            }
+
+            const jobDesc = document.getElementById('jobDescription').value.trim();
+            const resume = document.getElementById('userResume').value.trim();
+
+            if (!jobDesc || !resume) {
+                alert('Preencha tanto a descrição da vaga quanto o seu currículo atual para realizar o diagnóstico.');
+                return;
+            }
+
+            document.getElementById('loadingState').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+
+            const prompt = `Você é um consultor de carreira executiva e especialista em recrutamento (ATS - Application Tracking System), dedicado a combater o etarismo e valorizar profissionais sênior (45+ e 50+).
+
+Analise a Descrição da Vaga e o Currículo Atual fornecidos abaixo.
+REGRAS ESTRITAS:
+1. Melhore a apresentação, a clareza executiva e a aderência às palavras-chave da vaga, mas NUNCA invente cargos, empresas, diplomas ou experiências que não existam no currículo original.
+2. Valorize a maturidade, a capacidade de resolução de problemas, a liderança e a visão estratégica como vantagens competitivas.
+3. Responda EXCLUSIVAMENTE com um objeto JSON válido, sem blocos de código markdown (\`\`\`json) ou texto adicional fora do JSON, seguindo exatamente esta estrutura:
+
+{
+  "score": "XX%",
+  "summary": "Diagnóstico objetivo em 3 a 4 linhas explicando o nível de compatibilidade atual e como a senioridade do candidato atende aos desafios da vaga.",
+  "found": ["termo 1", "termo 2", "termo 3"],
+  "missing": ["termo ausente 1", "termo ausente 2", "termo ausente 3"],
+  "optimizedResume": "Texto completo do currículo reescrito em formato limpo e estruturado para leitura por sistemas ATS (Resumo Executivo, Competências-Chave, Experiência Profissional e Formação), incorporando naturalmente os termos relevantes da vaga sem inventar fatos.",
+  "mentorTip": "Conselho prático e direto sobre como o candidato deve posicionar sua experiência e maturidade durante a entrevista para neutralizar qualquer viés etário."
+}
+
+DESCRIÇÃO DA VAGA:
+${jobDesc}
+
+CURRÍCULO ATUAL:
+${resume}`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    throw new Error(data.error.message || 'Falha na comunicação com a API do Gemini.');
+                }
+
+                const rawText = data.candidates[0].content.parts[0].text;
+                const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const result = JSON.parse(cleanJson);
+
+                document.getElementById('matchScore').innerText = result.score;
+                document.getElementById('matchSummary').innerText = result.summary;
+                document.getElementById('optimizedResumeText').innerText = result.optimizedResume;
+                document.getElementById('mentorTip').innerText = result.mentorTip;
+
+                const foundContainer = document.getElementById('foundKeywords');
+                foundContainer.innerHTML = '';
+                result.found.forEach(item => {
+                    const span = document.createElement('span');
+                    span.className = 'bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0] text-xs font-semibold px-2.5 py-1 rounded-md';
+                    span.innerText = item;
+                    foundContainer.appendChild(span);
+                });
+
+                const missingContainer = document.getElementById('missingKeywords');
+                missingContainer.innerHTML = '';
+                result.missing.forEach(item => {
+                    const span = document.createElement('span');
+                    span.className = 'bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A] text-xs font-semibold px-2.5 py-1 rounded-md';
+                    span.innerText = item;
+                    missingContainer.appendChild(span);
+                });
+
+                document.getElementById('loadingState').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            } catch (error) {
+                console.error(error);
+                alert('Não foi possível concluir a análise: ' + error.message);
+                document.getElementById('loadingState').classList.add('hidden');
+            }
+        }
+
+        function copyOptimizedResume() {
+            const content = document.getElementById('optimizedResumeText').innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<span class="text-emeraldExec font-bold">✓ Copiado com sucesso</span>';
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                }, 2500);
+            });
+        }
+
+        function downloadTxtResume() {
+            const content = document.getElementById('optimizedResumeText').innerText;
