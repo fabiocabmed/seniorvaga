@@ -77,5 +77,5 @@ Durante o desenvolvimento, o projeto passou por um processo iterativo de refinam
 
 ## Autor
 
-Desenvolvido por **Fábio Cabral Medeiros** — Especialista Comercial B2B e Fundador da **Vitally Studio**.  
-Projeto construído como entrega prática de conclusão da formação em Inteligência Artificial e Vibe Coding na **Digital Innovation One (DIO)**.
+Desenvolvido por **Fábio Medeiros** — Especialista Comercial B2B e Fundador da **Vitally Studio**.  
+Projeto construído como entrega prática de conclusão do Bootcamp Santander - Construa seu primeiro App com IA na **Digital Innovation One (DIO)**.
